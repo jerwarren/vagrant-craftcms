@@ -17,7 +17,7 @@ Vagrant.configure(2) do |config|
     sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
     sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
     echo INSTALLING SOFTWARE...
-    sudo apt-get install -y vim curl python-software-properties mysql-server nginx php5-fpm php5-mysql imagemagick php5-imagick php5-curl
+    sudo apt-get install -y vim curl python-software-properties mysql-server nginx php5-mcrypt php5-fpm php5-mysql imagemagick php5-imagick php5-curl
     sudo sed -i "s/^bind-address/#bind-address/" /etc/mysql/my.cnf
     sudo service mysql restart
     sudo mysql -u root -proot -e "CREATE DATABASE craft;"
@@ -32,8 +32,8 @@ Vagrant.configure(2) do |config|
     sudo service nginx restart
     sudo mkdir /var/www
     sudo mkdir /var/www/craftcms
-    sudo cp -R /vagrant/craft/public /var/www/craftcms/
-    sudo cp -R /vagrant/craft/craft /var/www/craftcms/
+    sudo cp -r /vagrant/craft/ /var/www/craftcms/craft
+    sudo cp -r /vagrant/public /var/www/craftcms/public
     sudo cat /vagrant/db.php | sudo tee /var/www/craftcms/craft/config/db.php
     sudo chmod 0777 /var/www/craftcms/craft/app
     sudo chmod 0777 /var/www/craftcms/craft/config
