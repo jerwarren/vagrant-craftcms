@@ -3,6 +3,17 @@
 
 # you're doing.
 Vagrant.configure(2) do |config|
+  config.vm.synced_folder "craft", "/var/www/craftcms/craft", id: "craft",
+    owner: "vagrant",
+    group: "www-data",
+    mount_options: ["dmode=775,fmode=664"]
+
+
+  config.vm.synced_folder "public", "/var/www/craftcms/public", id: "public",
+    owner: "vagrant",
+    group: "www-data",
+    mount_options: ["dmode=775,fmode=664"]
+
   config.vm.box = "ubuntu/trusty32"
   config.vm.network "forwarded_port", guest: 80, host: 80
   config.vm.network "private_network", ip: "11.22.33.44"
@@ -32,8 +43,6 @@ Vagrant.configure(2) do |config|
     sudo service nginx restart
     sudo mkdir /var/www
     sudo mkdir /var/www/craftcms
-    sudo cp -r /vagrant/craft/ /var/www/craftcms/craft
-    sudo cp -r /vagrant/public /var/www/craftcms/public
     sudo cat /vagrant/db.php | sudo tee /var/www/craftcms/craft/config/db.php
     sudo chmod 0777 /var/www/craftcms/craft/app
     sudo chmod 0777 /var/www/craftcms/craft/config
